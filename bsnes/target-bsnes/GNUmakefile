@@ -32,6 +32,7 @@ ifeq ($(platform),macos)
 	mv out/$(name) out/$(name).app/Contents/MacOS/$(name)
 	cp Database/* out/$(name).app/Contents/MacOS/Database/
 	cp -r ../shaders/* out/$(name).app/Contents/MacOS/Shaders/
+	cp ../ruby/video/metal/Shaders.metal $(output.path)/$(name).app/Contents/Resources/Shaders/Shaders.metal
 	cp $(ui)/resource/$(name).plist out/$(name).app/Contents/Info.plist
 	sips -s format icns $(ui)/resource/$(name).png --out out/$(name).app/Contents/Resources/$(name).icns
 endif

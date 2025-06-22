@@ -50,6 +50,7 @@ auto Settings::process(bool load) -> void {
   bind(text,    "Video/Driver",    video.driver);
   bind(boolean, "Video/Exclusive", video.exclusive);
   bind(boolean, "Video/Blocking",  video.blocking);
+  bind(boolean, "Video/PresentSRGB", video.forceSRGB);
   bind(boolean, "Video/Flush",     video.flush);
   bind(text,    "Video/Monitor",   video.monitor);
   bind(text,    "Video/Format",    video.format);

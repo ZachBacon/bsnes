@@ -3,7 +3,7 @@ binary := application
 build := performance
 openmp := true
 local := true
-flags += -I. -I..
+flags += -I. -I.. -I../thirdparty/librashader/include
 
 # in order for this to work, obj/lzma.o must be omitted or bsnes will hang on startup.
 # further, only the X-Video driver works reliably. OpenGL 3.2, OpenGL 2.0, and XShm crash bsnes.
@@ -50,6 +50,8 @@ obj/libco.o: ../libco/libco.c
 obj/emulator.o: emulator/emulator.cpp
 obj/filter.o: filter/filter.cpp
 obj/lzma.o: lzma/lzma.cpp
+
+thirdparty.path := ../thirdparty
 
 include sfc/GNUmakefile
 include gb/GNUmakefile

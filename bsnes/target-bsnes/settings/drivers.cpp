@@ -44,6 +44,12 @@ auto DriverSettings::create() -> void {
     settings.video.flush = videoFlushToggle.checked();
     program.updateVideoFlush();
   });
+  #if defined(PLATFORM_MACOS)
+    videoColorSpaceToggle.setText("Force sRGB").onToggle([&] {
+      settings.video.forceSRGB = videoColorSpaceToggle.checked();
+      video.setForceSRGB(settings.video.forceSRGB);
+    });
+  #endif
   videoSpacer.setColor({192, 192, 192});
 
   audioLabel.setText("Audio").setFont(Font().setBold());
@@ -163,6 +169,9 @@ auto DriverSettings::videoDriverChanged() -> void {
   videoFormatChanged();
   videoExclusiveToggle.setChecked(video.exclusive()).setEnabled(video.hasExclusive());
   videoBlockingToggle.setChecked(video.blocking()).setEnabled(video.hasBlocking());
+  #if defined(PLATFORM_MACOS)
+    videoColorSpaceToggle.setChecked(video.forceSRGB()).setEnabled(video.hasForceSRGB());
+  #endif
   videoFlushToggle.setChecked(video.flush()).setEnabled(video.hasFlush());
   setGeometry(geometry());
 }

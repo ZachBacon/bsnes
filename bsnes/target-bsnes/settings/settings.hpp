@@ -11,6 +11,7 @@ struct Settings : Markup::Node {
     string driver;
     bool exclusive = false;
     bool blocking = false;
+    bool forceSRGB = false;
     bool flush = false;
     string monitor = "Primary";
     string format = "Default";
@@ -451,6 +452,9 @@ public:
     CheckLabel videoExclusiveToggle{&videoToggleLayout, Size{0, 0}};
     CheckLabel videoBlockingToggle{&videoToggleLayout, Size{0, 0}};
     CheckLabel videoFlushToggle{&videoToggleLayout, Size{0, 0}};
+  #if defined(PLATFORM_MACOS)
+    CheckLabel videoColorSpaceToggle{&videoToggleLayout, Size{0, 0}};
+  #endif
   Canvas videoSpacer{this, Size{~0, 1}};
   //
   Label audioLabel{this, Size{~0, 0}, 2};

@@ -26,6 +26,10 @@
   #include <ruby/video/wgl.cpp>
 #endif
 
+#if defined(VIDEO_METAL)
+  #include <ruby/video/metal/metal.cpp>
+#endif
+
 #if defined(VIDEO_XSHM)
   #include <ruby/video/xshm.cpp>
 #endif
@@ -68,6 +72,14 @@ auto Video::setBlocking(bool blocking) -> bool {
   if(instance->blocking == blocking) return true;
   if(!instance->hasBlocking()) return false;
   if(!instance->setBlocking(instance->blocking = blocking)) return false;
+  return true;
+}
+
+auto Video::setForceSRGB(bool forceSRGB) -> bool {Add commentMore actions
+  lock_guard<recursive_mutex> lock(mutex);
+  if(instance->forceSRGB == forceSRGB) return true;
+  if(!instance->hasForceSRGB()) return false;
+  if(!instance->setForceSRGB(instance->forceSRGB = forceSRGB)) return false;Add commentMore actions
   return true;
 }
 
@@ -170,6 +182,10 @@ auto Video::create(string driver) -> bool {
   if(driver == "OpenGL 3.2") self.instance = new VideoWGL(*this);
   #endif
 
+  #if defined(VIDEO_METAL)
+  if(driver == "Metal") self.instance = new VideoMetal(*this);
+  #endif
+
   #if defined(VIDEO_XSHM)
   if(driver == "XShm") self.instance = new VideoXShm(*this);
   #endif
@@ -214,6 +230,10 @@ auto Video::hasDrivers() -> vector<string> {
   "OpenGL 2.0",
   #endif
 
+  #if defined(VIDEO_METAL)
+  "Metal",
+  #endif
+
   #if defined(VIDEO_XVIDEO)
   "XVideo",
   #endif
@@ -228,6 +248,8 @@ auto Video::hasDrivers() -> vector<string> {
 auto Video::optimalDriver() -> string {
   #if defined(VIDEO_WGL)
   return "OpenGL 3.2";
+  #elif defined(VIDEO_METAL)
+  return "Metal";
   #elif defined(VIDEO_DIRECT3D)
   return "Direct3D 9.0";
   #elif defined(VIDEO_DIRECTDRAW)
@@ -254,6 +276,8 @@ auto Video::safestDriver() -> string {
   return "Direct3D 9.0";
   #elif defined(VIDEO_WGL)
   return "OpenGL 3.2";
+  #elif defined(VIDEO_METAL)
+  return "Metal";
   #elif defined(VIDEO_DIRECTDRAW)
   return "DirectDraw 7.0";
   #elif defined(VIDEO_GDI)

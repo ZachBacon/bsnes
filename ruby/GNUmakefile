@@ -17,6 +17,7 @@ ifeq ($(ruby),)
     ruby += video.cgl
     ruby += audio.openal
     ruby += input.quartz #input.carbon
+    ruby += video.metal
   else ifeq ($(platform),linux)
     ruby += video.glx video.glx2 video.xvideo video.xshm
     ruby += audio.oss audio.alsa
@@ -74,6 +75,8 @@ ifeq ($(platform),windows)
 endif
 
 ifeq ($(platform),macos)
+  ruby.options += -framework metal
+  ruby.options += -framework MetalKit
   ruby.options += -framework IOKit
   ruby.options += $(if $(findstring audio.openal,$(ruby)),-framework OpenAL)
 endif

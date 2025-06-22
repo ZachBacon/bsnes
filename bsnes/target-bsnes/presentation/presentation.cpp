@@ -554,7 +554,7 @@ auto Presentation::updateShaders() -> void {
 
   auto location = locate("Shaders/");
 
-  if(settings.video.driver == "OpenGL 3.2") {
+  if(settings.video.driver.hasShader()) {
     for(auto shader : directory::folders(location, "*.shader")) {
       if(shaders.objectCount() == 2) shaderMenu.append(MenuSeparator());
       MenuRadioItem item{&shaderMenu};
