@@ -58,6 +58,11 @@ ifeq ($(hiro.resource),)
   hiro.resource := $(hiro.path)/windows/hiro.rc
 endif
 
+# Set default hiro.path if not defined
+ifeq ($(hiro.path),)
+  hiro.path := .
+endif
+
 hiro.objects := \
   $(object.path)/hiro-$(hiro).o \
   $(if $(filter windows,$(hiro)),$(object.path)/hiro-resource.o)

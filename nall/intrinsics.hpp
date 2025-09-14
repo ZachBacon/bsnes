@@ -157,7 +157,17 @@ namespace nall {
 /* Endian detection */
 
 #if defined(PLATFORM_MACOS)
-  #include <machine/endian.h>
+  #include <libkern/OSByteOrder.h>
+  // macOS defines these with different names
+  #ifndef LITTLE_ENDIAN
+    #define LITTLE_ENDIAN __DARWIN_LITTLE_ENDIAN
+  #endif
+  #ifndef BIG_ENDIAN
+    #define BIG_ENDIAN __DARWIN_BIG_ENDIAN
+  #endif
+  #ifndef BYTE_ORDER
+    #define BYTE_ORDER __DARWIN_BYTE_ORDER
+  #endif
 #elif defined(PLATFORM_LINUX)
   #include <endian.h>
 #elif defined(PLATFORM_BSD)
